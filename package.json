@@ -2,10 +2,10 @@
   "name": "nodebot",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "start_server.js",
   "scripts": {
-    "start": "node dist/fetch_message.js",
-    "dev": "nodemon src/fetch_message.ts",
+    "start": "node dist/start_bot.js",
+    "dev": "nodemon src/start_bot.ts",
     "build": "tsc -p ."
   },
   "repository": {

@@ -1,59 +1,130 @@
 const request   = require('request');
-const parse     = require('./parse_message.js');
 const config    = require('config');
 const fs        = require('fs');
+const Bot       = require('../bot/Bot');
 
-const interval = setInterval((): void => {
+class Fetch_message {
+    private USERS_JSON_PATH = './bot/data/users.json';
+    private MESSAGE_DATA_JSON_PATH = './bot/data/message-data.json';
 
-    let offset = getOffset();
+    private BOT_TOKEN: string = config.get('BOT_TOKEN');
+    private MESSAGE_DATA: any = this.read(this.MESSAGE_DATA_JSON_PATH);
+    private offset: number = this.messageDataGet('offset');
 
-    const BOT_TOKEN: string = config.get('BOT_TOKEN');
+    private newMessageData: any;
 
-    request({
-        method: 'GET',
-        url: `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`,
-        qs: {
-            offset: offset.offset
+    constructor(){
+        this.startFetching();
+    }
+
+    /**
+     * Метод, который принимает ключ объекта и возващает его значение. Сам объект хранится в файле.
+     * @param key
+     */
+    private messageDataGet(key: string): any{
+        try {
+            return this.MESSAGE_DATA[key];
+        } catch (e) {
+            console.log(e);
         }
-    }, function (error: any, response: any, message: any) {
-        if (!error && response.statusCode === 200) {
-            let messageBag = JSON.parse(message);
-            messageBag = messageBag.result;
+    }
 
-            console.log(offset.offset, 'Оффсет сейчас равен');
+    /**
+     * Устанавливает оффсет последнео сообщения
+     */
+    private async setNewOffset() {
+        const newOffset = this.newMessageData[this.newMessageData.length - 1].update_id + 1;
+        this.save(this.MESSAGE_DATA_JSON_PATH, newOffset);
+    }
 
-            console.log(message);
-
-            if(messageBag.length !== 0){
-                offset.offset = messageBag[messageBag.length - 1].update_id + 1;
-                setOffset(offset);
-                addMessage(messageBag);
-                parse.message();
-                deleteAllMessage();
-            }
+    /**
+     * Считывает данные из файла JSON и возвращает их
+     * @param path
+     * @param encoding
+     */
+    protected read(path: string, encoding: string = 'utf8'): any{
+        try{
+            return JSON.parse(fs.readFileSync(path, encoding))
+        }catch (e) {
+            console.log('Не получилось считать Json в методе read, класса Fetch_message');
         }
-    });
+    }
 
-}, 5000);
+    /**
+     * Сохраняет данные по указанному пути
+     * @param path
+     * @param data
+     */
+    protected save(path: string, data: any): void{
+        fs.writeFileSync(path, JSON.stringify(data));
+    }
 
-function getOffset(){
-    return JSON.parse(fs.readFileSync('./bot/data/offset.json', 'utf8'));
+    /**
+     * Записывает все сообщения и их данные в файл
+     */
+    //TODO Переписать сохранение данных в базу, а не в файл
+    private async addMessage() {
+        let messages: any = this.read(this.USERS_JSON_PATH);
+
+        messages.push(...this.newMessageData);
+
+        this.save(this.USERS_JSON_PATH, messages);
+    }
+
+    /**
+     * Функция обрабатывает каждое сообщение, после чего удаляет их
+     */
+    //TODO Из базы они не будут удаляется, будет просто ставиться флаг
+    private parseMessage(): void{
+        let allMessage: any = this.read(this.USERS_JSON_PATH);
+
+        console.log(allMessage, 'allMessage');
+
+        allMessage.forEach( (value , key) => {
+            new Bot(
+                value.message.text,
+                value.message.chat.id
+            );
+        })
+    }
+
+    /**
+     * Основная зациклинная функция, которая каждые 5 секунд отправляет запрос на проверку новых сообщений отправленные боту
+     */
+    private startFetching(): void{
+        const interval = setInterval((): void => {
+
+            request({
+                method: 'GET',
+                url: `https://api.telegram.org/bot${this.BOT_TOKEN}/getUpdates`,
+                qs: {
+                    offset: this.offset
+                }
+            }, (error: any, response: any, message: any)  => {
+                if (!error && response.statusCode === 200) {
+                    this.newMessageData = JSON.parse(message).result;
+
+                    console.log(this.offset, 'Оффсет сейчас равен');
+
+                    if(this.newMessageData.length > 0){
+                        console.info('Получил новые сообщения');
+
+                        this.setNewOffset().then(() => {
+                            this.addMessage().then(() => {
+                                this.parseMessage();
+                            });
+                        });
+                    }
+                }
+            });
+
+        }, 5000);
+    }
 }
 
-function setOffset(offset: any): void {
-    fs.writeFileSync('offset.json', JSON.stringify(offset))
-}
+//
+// function deleteAllMessage(): void {
+//     fs.writeFileSync('users.json', JSON.stringify([]));
+// }
 
-function addMessage(newMassage: any): void {
-    let messages: any = fs.readFileSync('./bot/data/users.json', 'utf8');
-    messages = JSON.parse(messages);
-    messages.push(...newMassage);
-    messages = JSON.stringify(messages);
-    fs.writeFileSync('users.json', messages);
-}
-
-function deleteAllMessage(): void {
-    fs.writeFileSync('users.json', JSON.stringify([]));
-}
-
-
+export = Fetch_message;
