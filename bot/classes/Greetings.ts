@@ -1,16 +1,16 @@
 const request = require('request');
-const config = require('config');
-const fs = require('fs');
 const ProcessMessage = require('../ProcessMessage');
 
 class Greetings extends ProcessMessage{
     process(message) {
 
-        let stateUser = this.read();
+        const state: number = this.bot.conversationGet('state');
 
-        switch (stateUser.state) {
+        switch (state) {
             case 0: this.sayHello(); break;
             case 1: this.test(); break;
+            default:
+                console.error('Такого state нету');
         }
     }
 
@@ -19,8 +19,6 @@ class Greetings extends ProcessMessage{
             `Привет, я бот Цирей, вижу ты новый пользователь с которым я ещё не общался. Взаимодействие со мной происхоид с помощью комманд, вот их список: 
             /joke`
         );
-
-        this.changeState('conversation', 'Commands');
     }
 
     test(){
@@ -60,4 +58,4 @@ class Greetings extends ProcessMessage{
     }
 }
 
-module.exports = Greetings;
+export = Greetings;

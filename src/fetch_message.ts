@@ -1,19 +1,19 @@
 const request   = require('request');
-const config    = require('config');
 const fs        = require('fs');
 const Bot       = require('../bot/Bot');
+const General_class = require('./General_class');
 
-class Fetch_message {
-    private USERS_JSON_PATH = './bot/data/users.json';
+class Fetch_message extends General_class{
+    private USERS_JSON_PATH = './bot/data/users-data.json';
     private MESSAGE_DATA_JSON_PATH = './bot/data/message-data.json';
 
-    private BOT_TOKEN: string = config.get('BOT_TOKEN');
-    private MESSAGE_DATA: any = this.read(this.MESSAGE_DATA_JSON_PATH);
     private offset: number = this.messageDataGet('offset');
 
+    private messageData: any;
     private newMessageData: any;
 
     constructor(){
+        super();
         this.startFetching();
     }
 
@@ -22,8 +22,10 @@ class Fetch_message {
      * @param key
      */
     private messageDataGet(key: string): any{
+        this.messageData = this.readFile(this.MESSAGE_DATA_JSON_PATH);
+
         try {
-            return this.MESSAGE_DATA[key];
+            return this.messageData[key];
         } catch (e) {
             console.log(e);
         }
@@ -33,30 +35,9 @@ class Fetch_message {
      * Устанавливает оффсет последнео сообщения
      */
     private async setNewOffset() {
-        const newOffset = this.newMessageData[this.newMessageData.length - 1].update_id + 1;
-        this.save(this.MESSAGE_DATA_JSON_PATH, newOffset);
-    }
+        this.messageData['offset'] = this.newMessageData[this.newMessageData.length - 1].update_id + 1;
 
-    /**
-     * Считывает данные из файла JSON и возвращает их
-     * @param path
-     * @param encoding
-     */
-    protected read(path: string, encoding: string = 'utf8'): any{
-        try{
-            return JSON.parse(fs.readFileSync(path, encoding))
-        }catch (e) {
-            console.log('Не получилось считать Json в методе read, класса Fetch_message');
-        }
-    }
-
-    /**
-     * Сохраняет данные по указанному пути
-     * @param path
-     * @param data
-     */
-    protected save(path: string, data: any): void{
-        fs.writeFileSync(path, JSON.stringify(data));
+        this.saveFile(this.MESSAGE_DATA_JSON_PATH, this.messageData);
     }
 
     /**
@@ -64,28 +45,28 @@ class Fetch_message {
      */
     //TODO Переписать сохранение данных в базу, а не в файл
     private async addMessage() {
-        let messages: any = this.read(this.USERS_JSON_PATH);
+        let messages: any = this.readFile(this.USERS_JSON_PATH);
 
         messages.push(...this.newMessageData);
 
-        this.save(this.USERS_JSON_PATH, messages);
+        this.saveFile(this.USERS_JSON_PATH, messages);
     }
 
     /**
-     * Функция обрабатывает каждое сообщение, после чего удаляет их
+     * Метод обрабатывает каждое сообщение, после чего удаляет их
      */
     //TODO Из базы они не будут удаляется, будет просто ставиться флаг
     private parseMessage(): void{
-        let allMessage: any = this.read(this.USERS_JSON_PATH);
-
-        console.log(allMessage, 'allMessage');
+        let allMessage: any = this.readFile(this.USERS_JSON_PATH);
 
         allMessage.forEach( (value , key) => {
             new Bot(
                 value.message.text,
                 value.message.chat.id
             );
-        })
+        });
+
+        this.saveFile(this.USERS_JSON_PATH, []);
     }
 
     /**
@@ -121,10 +102,5 @@ class Fetch_message {
         }, 5000);
     }
 }
-
-//
-// function deleteAllMessage(): void {
-//     fs.writeFileSync('users.json', JSON.stringify([]));
-// }
 
 export = Fetch_message;

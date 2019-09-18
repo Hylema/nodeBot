@@ -7,7 +7,7 @@ class Default extends ProcessMessage{
     process(message) {
         this.sendMessage(`Урааааа я сижу в дефолет и вот сообщение:${message}`);
 
-        this.changeState('conversation', 'Commands')
+        this.changeState('conversations', 'Commands')
     }
 }
 

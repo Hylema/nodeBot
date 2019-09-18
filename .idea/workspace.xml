@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2487f15-31c0-4e7f-9c74-066e8d9c52fd" name="Default Changelist" comment="" />
+    <list default="true" id="d2487f15-31c0-4e7f-9c74-066e8d9c52fd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/Bot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/Bot.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/ProcessMessage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/data/message-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/data/message-data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/data/users.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/сlasses/Commands.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/сlasses/Default.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/сlasses/Greetings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/General_class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/General_class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fetch_message.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/fetch_message.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,10 +52,10 @@
   <component name="ProjectId" id="1QxGTQCOIXDToI91AdKi3d070hP" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="11.14.0" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.16.3" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="ts.external.directory.path" value="C:\code\nodeBot\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
@@ -84,7 +96,8 @@
       <workItem from="1568221556310" duration="24000" />
       <workItem from="1568380369420" duration="10025000" />
       <workItem from="1568648039059" duration="4335000" />
-      <workItem from="1568704848914" duration="14277000" />
+      <workItem from="1568704848914" duration="28082000" />
+      <workItem from="1568802267691" duration="1381000" />
     </task>
     <servers />
   </component>
@@ -96,7 +109,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
