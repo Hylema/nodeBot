@@ -1,20 +1,49 @@
 const request   = require('request');
-const fs        = require('fs');
 const Bot       = require('../bot/Bot');
 const General_class = require('./General_class');
 
+interface messageDataInterface {
+    offset: number,
+}
+
 class Fetch_message extends General_class{
-    private USERS_JSON_PATH = './bot/data/users-data.json';
-    private MESSAGE_DATA_JSON_PATH = './bot/data/message-data.json';
+    readonly USERS_JSON_PATH: string = './bot/data/users-data.json';
+    readonly MESSAGE_DATA_JSON_PATH: string = './bot/data/message-data.json';
 
-    private offset: number = this.messageDataGet('offset');
+    private _messageData: messageDataInterface;
 
-    private messageData: any;
-    private newMessageData: any;
+    private _offset: number;
+
+    private newMessageData: any[];
 
     constructor(){
         super();
+
         this.startFetching();
+    }
+
+    get offset(): number {
+        if(this._offset === undefined){
+            this.offset = this.messageDataGet('offset');
+        }
+
+        return this._offset;
+    }
+    set offset(newOffset: number) {
+        this.messageData['offset'] = newOffset;
+
+        this._offset = newOffset;
+    }
+
+    get messageData(): messageDataInterface {
+        if(this._messageData === undefined){
+            this.messageData = this.readFile(this.MESSAGE_DATA_JSON_PATH);
+        }
+
+        return this._messageData;
+    }
+    set messageData(newMessageData: messageDataInterface){
+        this._messageData = newMessageData;
     }
 
     /**
@@ -22,8 +51,6 @@ class Fetch_message extends General_class{
      * @param key
      */
     private messageDataGet(key: string): any{
-        this.messageData = this.readFile(this.MESSAGE_DATA_JSON_PATH);
-
         try {
             return this.messageData[key];
         } catch (e) {
@@ -35,7 +62,7 @@ class Fetch_message extends General_class{
      * Устанавливает оффсет последнео сообщения
      */
     private async setNewOffset() {
-        this.messageData['offset'] = this.newMessageData[this.newMessageData.length - 1].update_id + 1;
+        this.offset = this.newMessageData[this.newMessageData.length - 1].update_id + 1;
 
         this.saveFile(this.MESSAGE_DATA_JSON_PATH, this.messageData);
     }
@@ -45,7 +72,7 @@ class Fetch_message extends General_class{
      */
     //TODO Переписать сохранение данных в базу, а не в файл
     private async addMessage() {
-        let messages: any = this.readFile(this.USERS_JSON_PATH);
+        let messages: any[] = this.readFile(this.USERS_JSON_PATH);
 
         messages.push(...this.newMessageData);
 
@@ -57,7 +84,7 @@ class Fetch_message extends General_class{
      */
     //TODO Из базы они не будут удаляется, будет просто ставиться флаг
     private parseMessage(): void{
-        let allMessage: any = this.readFile(this.USERS_JSON_PATH);
+        let allMessage: any[] = this.readFile(this.USERS_JSON_PATH);
 
         allMessage.forEach( (value , key) => {
             new Bot(
@@ -88,7 +115,7 @@ class Fetch_message extends General_class{
                     console.log(this.offset, 'Оффсет сейчас равен');
 
                     if(this.newMessageData.length > 0){
-                        console.info('Получил новые сообщения');
+                        console.info(`Получил ${this.newMessageData.length} новых сообщений`);
 
                         this.setNewOffset().then(() => {
                             this.addMessage().then(() => {

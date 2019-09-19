@@ -26,7 +26,7 @@ class ProcessMessage extends General_class{
             }
         }, () => {});
 
-        console.log('Отправил')
+        console.log(message, 'message');
     }
 }
 

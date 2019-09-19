@@ -2,7 +2,7 @@ const fs        = require('fs');
 const config    = require('config');
 
 /**
- * Класс для общиъ методов
+ * Класс для общих методов
  */
 abstract class General_class {
 

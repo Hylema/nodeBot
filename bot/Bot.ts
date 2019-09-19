@@ -2,49 +2,89 @@ const config = require('config');
 const fs = require('fs');
 const General_class = require('../src/General_class');
 
-const allClasses = {
-    Default: require('./classes/Default'),
-    Commands: require('./classes/Commands'),
-    Greetings: require('./classes/Greetings'),
-};
+interface conversationInterface {
+    conversation: string,
+    state: number
+}
 
+//TODO Пути к файлам
 class Bot extends General_class{
     private MESSAGE: string;
     private CHAT_ID: number;
 
-    private CONVERSATION_USER_PATH: string;
+    private _conversation: conversationInterface;
+
+    private _allConversations: any[];
+    private _allClasses: any[];
 
     constructor(message: string, chat_id: number){
         super();
+
         this.MESSAGE = message;
         this.CHAT_ID = chat_id;
 
         this.checkUserConversations();
     }
 
+    get conversation(): conversationInterface {
+        if(this._conversation === undefined){
+            this.conversation = this.readFile(this.CONVERSATION_USER_PATH);
+        }
+
+        return this._conversation;
+    }
+    set conversation(newConversation: conversationInterface){
+        this._conversation = newConversation;
+
+        this.saveFile(this.CONVERSATION_USER_PATH, this.conversation)
+    }
+
+    get allConversations():any[] {
+        if(this._allConversations === undefined){
+            this.allConversations = fs.readdirSync('bot/conversations');
+        }
+
+        return this._allConversations;
+    }
+    set allConversations(arrayConversations: any[]){
+        this._allConversations = arrayConversations;
+    }
+
+    get allClasses():any[] {
+        if(this._allClasses === undefined){
+            this.allClasses = fs.readdirSync('bot/classes').map(filename => {
+                return filename.split('.')[0];
+            });
+        }
+
+        return this._allClasses;
+    }
+    set allClasses(arrayConversations: any[]){
+        this._allClasses = arrayConversations;
+    }
+
+    get CONVERSATION_USER_PATH(): string {
+        return `bot/conversations/${this.CHAT_ID}.json`;
+    }
+
+
     /**
      * Метод, который проверяет существует ли пользователь
      */
-    //TODO нужно будет поменять код если конверсейшен будет пустым
     private checkUserConversations(): void {
-        let value: any = fs.readdirSync('bot/conversations');
+
         let newUser: boolean = true;
+        let allConversations: any[] = this.allConversations;
 
-        this.CONVERSATION_USER_PATH = `bot/conversations/${this.CHAT_ID}.json`;
-
-        if(value.length !== 0){
-            value.forEach( (value, key) => {
+        if(allConversations.length !== 0){
+            allConversations.forEach( (value, key) => {
                 if(value === `${this.CHAT_ID}.json`) {
                     newUser = false;
                 }
             });
         }
 
-        if(newUser){
-            this.createNewUser();
-        } else {
-            this.createClass();
-        }
+        newUser ? this.createNewUser() : this.createClass();
     }
 
     /**
@@ -63,24 +103,16 @@ class Bot extends General_class{
      */
     //TODO проверка работает не совсем верно
     private createClass(): void{
-        const conversation: string = this.conversationGet('conversation');
-        const classes: any = fs.readdirSync('bot/classes');
+        const conversation: string = this.conversation['conversation'];
+        const allClasses: any[] = this.allClasses;
 
-        if(typeof classes[conversation] !== undefined){
-            const classForUser = require(`./classes/${conversation}.ts`);
+        if(allClasses.indexOf(conversation) !== -1){
+            const classForUser: any = require(`./classes/${conversation}.ts`);
 
             new classForUser(this);
+        } else {
+            console.error('Такого класса не существует');
         }
-    }
-
-    /**
-     * Метод принимает ключ объекта и возваращет значение нужного пользователя
-     * @param key
-     */
-    private conversationGet(key: string): any {
-        const conversationUser: any = this.readFile(this.CONVERSATION_USER_PATH);
-
-        return conversationUser[key];
     }
 }
 

@@ -4,15 +4,12 @@
     <list default="true" id="d2487f15-31c0-4e7f-9c74-066e8d9c52fd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/Bot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/Bot.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/ProcessMessage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/ProcessMessage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/ProcessMessage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/classes/Greetings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/classes/Greetings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/conversations/661292492.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/conversations/661292492.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/data/message-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/data/message-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/data/users.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/сlasses/Commands.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/сlasses/Default.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/сlasses/Greetings.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/data/users-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/data/users-data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/General_class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/General_class.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fetch_message.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/fetch_message.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +94,7 @@
       <workItem from="1568380369420" duration="10025000" />
       <workItem from="1568648039059" duration="4335000" />
       <workItem from="1568704848914" duration="28082000" />
-      <workItem from="1568802267691" duration="1381000" />
+      <workItem from="1568802267691" duration="17440000" />
     </task>
     <servers />
   </component>

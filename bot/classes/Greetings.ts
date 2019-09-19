@@ -14,47 +14,28 @@ class Greetings extends ProcessMessage{
         }
     }
 
-    sayHello(){
+    private sayHello(){
         this.sendMessage(
             `Привет, я бот Цирей, вижу ты новый пользователь с которым я ещё не общался. Взаимодействие со мной происхоид с помощью комманд, вот их список: 
             /joke`
         );
+
+        this.bot.conversationSet('state', 1);
     }
 
-    test(){
-        // let params = {
-        //     'ask': 'Привет',
-        //     'userid': '654321',
-        //     'key': ''
-        // };
-        //
-        // //let result = JSON.stringify(params);
-        //
-        // let ag = {
-        //     'userid': '654321',
-        //     'query': params,
-        // };
-        //
-        // request({
-        //     method: 'POST',
-        //     url: `https://api.dialogflow.com/v1/`,
-        //     authorization: 'Bearer 7f9a69a6915c457dadbff451ab09aaf5',
-        //     qs: {
-        //         contexts: [
-        //             "shop"
-        //         ],
-        //         lang: "en",
-        //         query: "I need apples",
-        //         sessionId: "12345",
-        //         timezone: "America/New_York"
-        //     }
-        // }, function (error, response, message) {
-        //     if (!error && response.statusCode === 200) {
-        //         console.log(response, 'response');
-        //         console.log(message, 'message');
-        //         console.log(error, 'error');
-        //     }
-        // });
+    private test(){
+        request({
+            method: 'GET',
+            url: `http://rzhunemogu.ru/Rand.aspx?CType=1`,
+            encoding: 'utf-8',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+        },  (error, response, message) => {
+            if (!error && response.statusCode === 200) {
+                this.sendMessage(message);
+            }
+        });
     }
 }
 
