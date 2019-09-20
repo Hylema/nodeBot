@@ -1,5 +1,5 @@
 const request = require('request');
-const General_class = require('../src/General_class');
+const General_class = require('./General_class');
 
 class ProcessMessage extends General_class{
     private bot: any;
@@ -17,16 +17,27 @@ class ProcessMessage extends General_class{
 
     sendMessage(message){
 
-        request({
-            method: 'GET',
-            url: `https://api.telegram.org/bot${this.BOT_TOKEN}/sendMessage`,
-            qs: {
-                chat_id: this.bot.CHAT_ID,
-                text: message
-            }
-        }, () => {});
+        // request({
+        //     method: 'GET',
+        //     url: `https://api.telegram.org/bot${this.BOT_TOKEN}/sendMessage`,
+        //     qs: {
+        //         chat_id: this.bot.CHAT_ID,
+        //         text: message
+        //     }
+        // }, () => {});
 
-        console.log(message, 'message');
+        // request
+        //     .get(`https://api.telegram.org/bot${this.BOT_TOKEN}/sendMessage`, {
+        //     chat_id: this.bot.CHAT_ID,
+        //     text: message
+        // }, function(err,httpResponse,body){
+        //         console.log(err);
+        //         console.log(httpResponse);
+        //         console.log(body);
+        //     });
+
+
+        console.log(message);
     }
 }
 

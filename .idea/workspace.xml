@@ -9,7 +9,12 @@
       <change beforePath="$PROJECT_DIR$/bot/conversations/661292492.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/conversations/661292492.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/data/message-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/data/message-data.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/data/users-data.json" beforeDir="false" afterPath="$PROJECT_DIR$/bot/data/users-data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/General_class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/General_class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/General_class.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/General_class.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/fetch_message.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bot/Fetch_message.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/start_bot.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/start_bot.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_server.js" beforeDir="false" afterPath="$PROJECT_DIR$/start_server.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +25,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="TypeScript File" />
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -48,6 +55,7 @@
   </component>
   <component name="ProjectId" id="1QxGTQCOIXDToI91AdKi3d070hP" />
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.16.3" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -57,11 +65,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\code\nodeBot\src" />
-      <recent name="C:\code\nodeBot\bot\data" />
-      <recent name="C:\code\nodeBot\bot" />
-      <recent name="C:\code\nodeBot\config" />
+      <recent name="C:\code\nodeBot\public\js" />
       <recent name="C:\code\nodeBot" />
+      <recent name="C:\code\nodeBot\server" />
+      <recent name="C:\code\nodeBot\bot" />
+      <recent name="C:\code\nodeBot\src" />
     </key>
   </component>
   <component name="RunDashboard">

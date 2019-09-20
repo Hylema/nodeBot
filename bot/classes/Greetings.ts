@@ -4,7 +4,7 @@ const ProcessMessage = require('../ProcessMessage');
 class Greetings extends ProcessMessage{
     process(message) {
 
-        const state: number = this.bot.conversationGet('state');
+        const state: number = this.bot.conversation['state'];
 
         switch (state) {
             case 0: this.sayHello(); break;
@@ -19,8 +19,6 @@ class Greetings extends ProcessMessage{
             `Привет, я бот Цирей, вижу ты новый пользователь с которым я ещё не общался. Взаимодействие со мной происхоид с помощью комманд, вот их список: 
             /joke`
         );
-
-        this.bot.conversationSet('state', 1);
     }
 
     private test(){

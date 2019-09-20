@@ -1,5 +1,5 @@
 const request   = require('request');
-const Bot       = require('../bot/Bot');
+const Bot       = require('./Bot');
 const General_class = require('./General_class');
 
 interface messageDataInterface {

@@ -1,6 +1,12 @@
 const config = require('config');
 const fs = require('fs');
-const General_class = require('../src/General_class');
+const General_class = require('./General_class');
+
+const classForUser = {
+    Default: require('./classes/Default.js'),
+    Commands: require('./classes/Commands.js'),
+    Greetings: require('./classes/Greetings.ts'),
+};
 
 interface conversationInterface {
     conversation: string,
@@ -8,6 +14,7 @@ interface conversationInterface {
 }
 
 //TODO Пути к файлам
+//TODO Проверить, есть ли возможность подключать файлы на ходу
 class Bot extends General_class{
     private MESSAGE: string;
     private CHAT_ID: number;
@@ -99,7 +106,7 @@ class Bot extends General_class{
     }
 
     /**
-     * Метод принимает конверсейшен пользователя и направляет на нужный класс
+     * Метод смотрит конверсейшен пользователя и направляет на нужный класс
      */
     //TODO проверка работает не совсем верно
     private createClass(): void{
@@ -107,9 +114,9 @@ class Bot extends General_class{
         const allClasses: any[] = this.allClasses;
 
         if(allClasses.indexOf(conversation) !== -1){
-            const classForUser: any = require(`./classes/${conversation}.ts`);
+            //const classForUser: any = require(`./classes/${conversation}.ts`);
 
-            new classForUser(this);
+            new classForUser[conversation](this);
         } else {
             console.error('Такого класса не существует');
         }
