@@ -1,18 +1,21 @@
 const mysql = require("mysql2");
 const path = require('path');
 const express = require('express');
-
-const publicPath = path.join(__dirname, './public');
+const socketIo = require('socket.io');
+const http = require('http');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-app.use(express.static(publicPath));
-
-app.get('/', function () {
-   return require('./public/js/app');
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    next();
 });
 
-app.listen(3000, () => {
+server.listen(3000, () => {
     console.log('Сервер работает');
 
     const connection = mysql.createConnection({
@@ -31,5 +34,18 @@ app.listen(3000, () => {
         }
     });
 });
+
+io.on('connection', (socket) => {
+    socket.on('message', (msg) => {
+        io.emit('check', {
+            botStatusB: true
+        })
+    });
+});
+
+// app.get('/', function (req, res) {
+//     res.send('Hello World!');
+// });
+
 
 
